@@ -1,3 +1,5 @@
+version: '2.1'
+
 services:
   product:
     build: microservices/product-service
@@ -82,3 +84,9 @@ services:
       interval: 5s
       timeout: 2s
       retries: 60
+
+  eureka:
+    build: spring-cloud/eureka-server
+    mem_limit: 512m
+    ports:
+      - "8761:8761"

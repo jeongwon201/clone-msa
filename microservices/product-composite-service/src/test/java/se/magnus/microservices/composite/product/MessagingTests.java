@@ -34,8 +34,10 @@ import se.magnus.api.core.review.Review;
 import se.magnus.api.event.Event;
 
 @SpringBootTest(
-        webEnvironment = RANDOM_PORT,
-        properties = {"spring.main.allow-bean-definition-overriding=true"})
+        webEnvironment = RANDOM_PORT, properties = {
+        "spring.main.allow-bean-definition-overriding=true",
+        "eureka.client.enabled=false"})
+
 @Import({TestChannelBinderConfiguration.class})
 class MessagingTests {
 
@@ -177,12 +179,7 @@ class MessagingTests {
                 .uri("/product-composite")
                 .body(just(compositeProduct), ProductAggregate.class)
                 .exchange()
-                .expectStatus().isEqualTo(expectedStatus)
-                .expectBody(String.class)
-                .consumeWith(result -> {
-                    System.out.println("======= 응답 body =======");
-                    System.out.println(result.getResponseBody());
-                });
+                .expectStatus().isEqualTo(expectedStatus);
     }
 
     private void deleteAndVerifyProduct(int productId, HttpStatus expectedStatus) {
